@@ -1,0 +1,5 @@
+[
+  {"id":"daily_login","title":"Đăng nhập hằng ngày","rewardType":"COIN","amount":5,"voucherId":null,"active":true},
+  {"id":"watch_video","title":"Xem video hướng dẫn","rewardType":"COIN","amount":2,"voucherId":null,"active":true},
+  {"id":"complete_profile","title":"Hoàn thiện hồ sơ","rewardType":"COIN","amount":10,"voucherId":null,"active":true}
+]

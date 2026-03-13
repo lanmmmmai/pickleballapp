@@ -1,0 +1,28 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+**/build/
+*.iml
+
+# iOS
+ios/Pods/
+
+# Node
+node_modules/
+**/node_modules/
+
+# Env
+.env
+**/.env
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Uploads
+pickleball-backend/uploads/

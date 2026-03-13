@@ -1,0 +1,5 @@
+[
+  {"id":"spin_coin_10","label":"10 xu","rewardType":"COIN","amount":10,"voucherId":null,"weight":4,"active":true},
+  {"id":"spin_coin_20","label":"20 xu","rewardType":"COIN","amount":20,"voucherId":null,"weight":2,"active":true},
+  {"id":"spin_lucky","label":"Chúc bạn may mắn lần sau","rewardType":"NONE","amount":0,"voucherId":null,"weight":3,"active":true}
+]

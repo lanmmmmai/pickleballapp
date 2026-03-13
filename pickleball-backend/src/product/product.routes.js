@@ -1,0 +1,11 @@
+const express = require('express');
+const controller = require('./product.controller');
+const auth = require('../middleware/auth.middleware');
+const role = require('../middleware/role.middleware');
+const upload = require('../middleware/upload.middleware');
+const router = express.Router();
+router.get('/', controller.getProducts);
+router.post('/', auth, role('ADMIN','STAFF','COACH'), upload.single('image'), controller.createProduct);
+router.put('/:id', auth, role('ADMIN','STAFF','COACH'), upload.single('image'), controller.updateProduct);
+router.delete('/:id', auth, role('ADMIN','STAFF'), controller.deleteProduct);
+module.exports = router;

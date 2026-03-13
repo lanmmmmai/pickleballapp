@@ -1,0 +1,274 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  STAFF
+  COACH
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  CHECKED_IN
+  NO_SHOW
+}
+
+enum ProductType {
+  COURT
+  BALL
+  RACKET
+  COACH
+}
+
+enum VideoSourceType {
+  YOUTUBE
+  FILE
+}
+
+enum VideoStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  name               String
+  email              String    @unique
+  phone              String?   @unique
+  password           String
+  role               UserRole  @default(USER)
+  emailVerified      Boolean   @default(false)
+  emailVerifyCode    String?
+  emailVerifyExpires DateTime?
+  paymentMethods     String[]  @default([])
+  createdAt          DateTime  @default(now())
+
+  bookings         Booking[]
+  userVouchers     UserVoucher[]
+  coinTransactions CoinTransaction[]
+  classesAsCoach   Class[]           @relation("CoachClasses")
+  coachProducts    Product[]         @relation("CoachProducts")
+  classEnrollments ClassEnrollment[]
+  videos           Video[]
+  videoLikes       VideoLike[]
+  videoSaves       VideoSave[]
+  videoComments    VideoComment[]
+  videoViews       VideoView[]
+}
+
+
+model Court {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  imageUrl    String?
+  openTime    String
+  closeTime   String
+  status      String   @default("AVAILABLE")
+  createdAt   DateTime @default(now())
+
+  priceSlots CourtPriceSlot[]
+  bookings   Booking[]
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String?
+  imageUrl    String?
+  type        ProductType @default(COURT)
+  price       Float       @default(0)
+  stock       Int         @default(0)
+  status      String      @default("ACTIVE")
+  coachUserId Int?
+  createdAt   DateTime    @default(now())
+
+  coach User? @relation("CoachProducts", fields: [coachUserId], references: [id])
+}
+
+model CourtPriceSlot {
+  id        Int    @id @default(autoincrement())
+  courtId   Int
+  startTime String
+  endTime   String
+  price     Float
+
+  court Court @relation(fields: [courtId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  courtId       Int
+  bookingDate   DateTime
+  startTime     String
+  endTime       String
+  totalPrice    Float
+  courtPrice    Float         @default(0)
+  paymentMethod String?
+  voucherCode   String?
+  extras        Json?
+  status        BookingStatus @default(PENDING)
+  checkedInAt   DateTime?
+  createdAt     DateTime      @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  court Court @relation(fields: [courtId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  type      String   @default("SYSTEM")
+  imageUrl  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Video {
+  id           Int             @id @default(autoincrement())
+  title        String
+  description  String?
+  videoUrl     String?
+  fileUrl      String?
+  sourceType   VideoSourceType @default(YOUTUBE)
+  status       VideoStatus     @default(APPROVED)
+  thumbnailUrl String?
+  category     String          @default("GUIDE")
+  isActive     Boolean         @default(true)
+  createdBy    Int?
+  createdAt    DateTime        @default(now())
+
+  creator      User?          @relation(fields: [createdBy], references: [id])
+  likes        VideoLike[]
+  saves        VideoSave[]
+  comments     VideoComment[]
+  views        VideoView[]
+}
+
+model VideoLike {
+  id        Int      @id @default(autoincrement())
+  videoId    Int
+  userId     Int
+  createdAt  DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([videoId, userId])
+}
+
+model VideoSave {
+  id        Int      @id @default(autoincrement())
+  videoId    Int
+  userId     Int
+  createdAt  DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([videoId, userId])
+}
+
+model VideoComment {
+  id        Int      @id @default(autoincrement())
+  videoId    Int
+  userId     Int
+  content    String
+  createdAt  DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VideoView {
+  id        Int      @id @default(autoincrement())
+  videoId    Int
+  userId     Int?
+  createdAt  DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user  User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model Voucher {
+  id            Int      @id @default(autoincrement())
+  code          String   @unique
+  title         String
+  description   String?
+  discountType  String
+  discountValue Float
+  minOrderValue Float    @default(0)
+  coinCost      Int      @default(0)
+  quantity      Int      @default(0)
+  redeemedCount Int      @default(0)
+  usedCount     Int      @default(0)
+  isActive      Boolean  @default(true)
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime @default(now())
+
+  userVouchers UserVoucher[]
+}
+
+model UserVoucher {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  voucherId Int
+  status    String    @default("AVAILABLE")
+  createdAt DateTime  @default(now())
+  usedAt    DateTime?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voucher Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+}
+
+model CoinTransaction {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  amount    Int
+  type      String
+  note      String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Class {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  coachId     Int
+  schedule    String?
+  maxStudents Int      @default(20)
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+
+  coach       User              @relation("CoachClasses", fields: [coachId], references: [id], onDelete: Cascade)
+  enrollments ClassEnrollment[]
+}
+
+model ClassEnrollment {
+  id        Int      @id @default(autoincrement())
+  classId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  class Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, userId])
+}

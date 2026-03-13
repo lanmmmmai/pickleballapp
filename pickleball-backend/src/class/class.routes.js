@@ -1,0 +1,13 @@
+const express = require('express');
+const controller = require('./class.controller');
+const auth = require('../middleware/auth.middleware');
+const role = require('../middleware/role.middleware');
+const router = express.Router();
+router.get('/', controller.getClasses);
+router.get('/me', auth, controller.getMyClasses);
+router.post('/', auth, role('ADMIN','COACH'), controller.createClass);
+router.put('/:id', auth, role('ADMIN','COACH'), controller.updateClass);
+router.delete('/:id', auth, role('ADMIN','COACH'), controller.deleteClass);
+router.post('/:id/enroll', auth, controller.enrollClass);
+router.delete('/enrollments/:enrollmentId', auth, role('ADMIN','COACH','STAFF'), controller.removeEnrollment);
+module.exports = router;

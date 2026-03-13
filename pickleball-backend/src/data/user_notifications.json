@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1773308086682,
+    "userId": null,
+    "title": "Booking mới",
+    "content": "Lan Đoàn vừa tạo booking #9 tại Sân 1 - Tầng 2 (15:00 - 19:00).",
+    "type": "BOOKING",
+    "imageUrl": null,
+    "isActive": true,
+    "createdAt": "2026-03-12T09:34:46.682Z"
+  },
+  {
+    "id": 1773308086680,
+    "userId": 1,
+    "title": "Đặt sân thành công",
+    "content": "Lan Đoàn đã đặt Sân 1 - Tầng 2 vào 15:00 - 19:00, tổng 1119994đ.",
+    "type": "BOOKING",
+    "imageUrl": null,
+    "isActive": true,
+    "createdAt": "2026-03-12T09:34:46.680Z"
+  },
+  {
+    "id": 1773301494180,
+    "userId": null,
+    "title": "Booking mới",
+    "content": "Laln vừa tạo booking #8 tại Sân 2 - Tầng 3 (13:00 - 17:00).",
+    "type": "BOOKING",
+    "imageUrl": null,
+    "isActive": true,
+    "createdAt": "2026-03-12T07:44:54.180Z"
+  },
+  {
+    "id": 1773301494179,
+    "userId": 6,
+    "title": "Đặt sân thành công",
+    "content": "Laln đã đặt Sân 2 - Tầng 3 vào 13:00 - 17:00, tổng 990005đ.",
+    "type": "BOOKING",
+    "imageUrl": null,
+    "isActive": true,
+    "createdAt": "2026-03-12T07:44:54.179Z"
+  },
+  {
+    "id": 1773301289629,
+    "userId": 6,
+    "title": "Đổi voucher thành công",
+    "content": "Laln vừa đổi voucher GIAM20 với 0 xu.",
+    "type": "VOUCHER",
+    "imageUrl": null,
+    "isActive": true,
+    "createdAt": "2026-03-12T07:41:29.629Z"
+  },
+  {
+    "id": 1773283170256,
+    "userId": 1,
+    "title": "Bạn nhận được xu",
+    "content": "Lan Đoàn vừa nhận 5 xu từ nhiệm vụ Đăng nhập hằng ngày.",
+    "type": "COIN",
+    "isActive": true,
+    "createdAt": "2026-03-12T02:39:30.256Z"
+  },
+  {
+    "id": 1773283167009,
+    "userId": 1,
+    "title": "Bạn nhận được xu",
+    "content": "Lan Đoàn vừa nhận 10 xu từ nhiệm vụ Hoàn thiện hồ sơ.",
+    "type": "COIN",
+    "isActive": true,
+    "createdAt": "2026-03-12T02:39:27.009Z"
+  }
+]
