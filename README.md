@@ -276,20 +276,3 @@ OTP_EXPIRE_MINUTES=5
 PUBLIC_BASE_URL=http://127.0.0.1:3000
 ```
 
-------------------------------------------------------------------------
-
-# 📚 Helpful Flutter Resources
-
-If you are new to Flutter, these resources will help:
-
--   https://docs.flutter.dev/get-started/learn-flutter\
--   https://docs.flutter.dev/get-started/codelab\
--   https://docs.flutter.dev/reference/learning-resources
-
-For full documentation:
-
-https://docs.flutter.dev/
-# pickleballapp
-# pickleballapp
-# PickleballTayMoClub
-# PickleballTayMoClub
